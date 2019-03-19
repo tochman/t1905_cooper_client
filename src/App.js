@@ -1,26 +1,63 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  Container,
+  Input,
+  Dropdown
+} from 'semantic-ui-react'
+import DisplayCooperResult from './components/DisplayCooperResult';
+
 
 class App extends Component {
+  state = {
+    distance: '',
+    gender: 'female',
+    age: ''
+  }
+
+  onValueChange(event) {
+    this.setState({
+      [event.target.id]: event.target.value
+    })
+  }
   render() {
+    const genderOptions = [
+      {
+        value: 'female', text: 'Female'
+      },
+      {
+        value: 'male', text: 'Male'
+      }
+    ]
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <>
+        <Container>
+          <Input
+            placeholder='Distance'
+            id='distance'
+            onChange={this.onValueChange.bind(this)}
+          />
+          <Input
+            placeholder='Age'
+            id='age'
+            onChange={this.onValueChange.bind(this)}
+          />
+          <Dropdown
+            id='gender'
+            selection
+            defaultValue='female'
+            placeholder='Select gender'
+            options={genderOptions}
+            onChange={(e, { value }) => this.setState({ gender: value })}
+          />
+          <DisplayCooperResult
+            gender={this.state.gender}
+            age={this.state.age}
+            distance={this.state.distance}
+          />
+
+        </Container>
+
+      </>
     );
   }
 }
