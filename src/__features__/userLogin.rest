@@ -1,0 +1,8 @@
+POST https://ca-cooper-api-2019.herokuapp.com/api/v1/auth 
+content-type: application/json
+
+{
+  "email": "johndoe@mail.com",
+  "password": "password",
+  "password_confirmation": "password"
+}

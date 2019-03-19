@@ -5,19 +5,32 @@ import {
   Dropdown
 } from 'semantic-ui-react'
 import DisplayCooperResult from './components/DisplayCooperResult';
+import LoginForm from './components/LoginForm';
+import { authenticate } from './modules/Auth'
 
 
 class App extends Component {
   state = {
     distance: '',
     gender: 'female',
-    age: ''
+    age: '',
+    email: '',
+    password: '',
+    authenticated: false
   }
 
   onValueChange(event) {
+    debugger
     this.setState({
       [event.target.id]: event.target.value
     })
+  }
+  async onLogin(event) {
+    event.preventDefault()
+    let response = await authenticate(this.state.email, this.state.password)
+    if (response.authenticated) {
+      this.setState({ authenticated: true })
+    }
   }
   render() {
     const genderOptions = [
@@ -54,6 +67,7 @@ class App extends Component {
             age={this.state.age}
             distance={this.state.distance}
           />
+          {!this.state.authenticated && <LoginForm inputChangeHandler={this.onValueChange.bind(this)} loginHandler={this.onLogin.bind(this)} />}
 
         </Container>
 
